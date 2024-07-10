@@ -38,14 +38,18 @@ quote-style = 'single'
 
 [tool.pytest.ini_options]
 pythonpath = "."
-addopts = '-p no:warnings'
+addopts = "-p no:warnings"
+asyncio_mode = "auto"
+xfail_strict = true
+jnuit_family = "xunit2"
 
 [tool.taskipy.tasks]
 lint = 'ruff check .&& ruff check . --diff'
 format = 'ruff check . --fix; ruff format .'
 run = 'fastapi dev store/main.py'
 precommit = 'poetry run pre-commit install'
-
+test = 'pytest -s -x --cov=app_tdd -vv'
+post_test = 'coverage html'
 
 [build-system]
 requires = ["poetry-core"]

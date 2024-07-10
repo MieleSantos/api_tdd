@@ -4,7 +4,7 @@ import pytest
 from pydantic import ValidationError
 
 from store.schemas.product import ProductIn
-from tests.schemas.factories import product_data_raises, product_data_sucess
+from tests.factories import product_data_raises, product_data_sucess
 
 
 def test_schemas_return_sucess():

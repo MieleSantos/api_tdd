@@ -34,7 +34,9 @@ class ProductUsecase:
     async def update(self, id: UUID, body: ProductUpdate) -> ProductUpdateOut:
         result = await self.collection.find_one_and_update(
             filter={"id": id},
-            update={"$set": body.model_dump(exclude_none=True)},
+            update={
+                "$set": body.model_dump(exclude_none=True, exclude="created_at"),
+            },
             return_document=pymongo.ReturnDocument.AFTER,
         )
 

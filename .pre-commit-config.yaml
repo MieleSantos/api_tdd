@@ -18,12 +18,6 @@ repos:
       args:
       - --py3-plus
       - --keep-runtime-typing
--   repo: https://github.com/charliermarsh/ruff-pre-commit
-    rev: v0.5.1
-    hooks:
-    - id: ruff
-      args:
-      - --fix
 -   repo: https://github.com/psf/black
     rev: 24.4.2
     hooks:

@@ -17,7 +17,7 @@ def event_loop():
     loop.close()
 
 
-@pytest.fixture
+@pytest.fixture()
 def mongo_client():
     return db_client.get()
 
@@ -33,7 +33,7 @@ async def clear_collections(mongo_client):
     await mongo_client.get_database()[collection_name].delete_many({})
 
 
-@pytest.fixture
+@pytest.fixture()
 async def client() -> AsyncClient:  # type: ignore
     from store.main import app
 
@@ -41,37 +41,37 @@ async def client() -> AsyncClient:  # type: ignore
         yield ac
 
 
-@pytest.fixture
+@pytest.fixture()
 def products_url() -> str:
     return "/products/"
 
 
-@pytest.fixture
+@pytest.fixture()
 def product_id():
     return UUID("e2658700-6540-4720-a9ce-4bca2c848630")
 
 
-@pytest.fixture
+@pytest.fixture()
 def product_in():
     return ProductIn(**product_data_sucess())
 
 
-@pytest.fixture
+@pytest.fixture()
 def product_up():
     return ProductUpdate(**product_data_sucess())
 
 
-@pytest.fixture
+@pytest.fixture()
 async def product_insert(product_in):
     return await product_use_case.create(body=product_in)
 
 
-@pytest.fixture
+@pytest.fixture()
 def products_in():
     return [ProductIn(**product) for product in products_data_sucess()]
 
 
-@pytest.fixture
+@pytest.fixture()
 async def products_insert(products_in):
     return [
         await product_use_case.create(body=product_in) for product_in in products_in

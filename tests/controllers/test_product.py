@@ -47,3 +47,8 @@ async def test_controller_delete_should_return_sucess(
 ):
     response = await client.delete(f"{products_url}{product_insert.id}")
     assert response.status_code == status.HTTP_204_NO_CONTENT
+
+
+async def test_controller_get_filter_should_return_sucess(client, products_url):
+    response = await client.get(f"{products_url}")
+    assert response.status_code == status.HTTP_200_OK

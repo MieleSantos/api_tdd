@@ -11,8 +11,18 @@ from store.schemas.base import BaseSchemaMixin
 class ProductBase(BaseModel):
     name: str = Field(description="Product name")
     quantity: int = Field(description="Product quantity")
-    price: Decimal = Field(description="Product price")
+    price: Decimal = Field(
+        description="Product price",
+    )
     status: bool = Field(description="Product status")
+
+
+#    @model_validator(mode="before")
+#    def set_price(cls, price):
+#        if price["price"] >= 5000 and price["price"] <= 8000:
+#            return price["price"]
+#        else:
+#            raise ValueError(f"Price  {price['price']}  not => 5000 and <= 8000")
 
 
 class ProductIn(ProductBase, BaseSchemaMixin): ...

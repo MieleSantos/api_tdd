@@ -8,7 +8,9 @@ from store.usecases.product import ProductUsecase
 router = APIRouter()
 
 
-@router.post(path="/", status_code=status.HTTP_201_CREATED)
+@router.post(
+    path="/", status_code=status.HTTP_201_CREATED, description="Create product"
+)
 async def postin(
     body: ProductIn = Body(...),
     use_case: ProductUsecase = Depends(),  # type: ignore
@@ -22,8 +24,10 @@ async def postin(
         )
 
 
-@router.get(path="/{id}", status_code=status.HTTP_200_OK)
-async def get(
+@router.get(
+    path="/{id}", status_code=status.HTTP_200_OK, description="Search for Id product"
+)
+async def get_id(
     id: UUID4 = Path(alias="id"),
     use_case: ProductUsecase = Depends(),  # type: ignore
 ) -> ProductOut:
@@ -41,7 +45,11 @@ async def get(
         )
 
 
-@router.get(path="/", status_code=status.HTTP_200_OK)
+@router.get(
+    path="/",
+    status_code=status.HTTP_200_OK,
+    description="Search all products",
+)
 async def get(use_case: ProductUsecase = Depends()) -> list[ProductOut]:  # type: ignore
     try:
         return await use_case.query()
@@ -52,7 +60,24 @@ async def get(use_case: ProductUsecase = Depends()) -> list[ProductOut]:  # type
         )
 
 
-@router.patch(path="/{id}", status_code=status.HTTP_200_OK)
+@router.get(
+    path="/filter/",
+    status_code=status.HTTP_200_OK,
+    description="Search product with price >5000",
+)
+async def get_filter(use_case: ProductUsecase = Depends()) -> list[ProductOut]:  # type: ignore
+    try:
+        return await use_case.get_filter()
+    except Exception:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Error search products",
+        )
+
+
+@router.patch(
+    path="/{id}", status_code=status.HTTP_200_OK, description="Update product for Id"
+)
 async def patch(
     id: UUID4 = Path(alias="id"),
     body: ProductUpdate = Body(...),
@@ -60,7 +85,7 @@ async def patch(
 ) -> ProductOut:
 
     try:
-        # breakpoint()
+
         if await use_case.get(id=id):
             return await use_case.update(id=id, body=body)
     except NotFoundException:
@@ -75,7 +100,11 @@ async def patch(
         )
 
 
-@router.delete(path="/{id}", status_code=status.HTTP_204_NO_CONTENT)
+@router.delete(
+    path="/{id}",
+    status_code=status.HTTP_204_NO_CONTENT,
+    description="Delete product for Id",
+)
 async def delete(
     id: UUID4 = Path(alias="id"),
     use_case: ProductUsecase = Depends(),  # type: ignore

@@ -28,6 +28,16 @@ class ProductUsecase:
             raise NotFoundException(message=f"Product not found filter: {id}")
         return ProductOut(**result)
 
+    async def get_filter(self) -> list[ProductOut]:
+
+        result = self.collection.find({"price": {"$gte": 5000, "$lte": 8000}})
+
+        if not result:
+            raise NotFoundException(
+                message=f"Products not found with price >= 5000 and price <=8000"
+            )
+        return [ProductOut(**item) async for item in result]
+
     async def query(self) -> list[ProductOut]:
         return [ProductOut(**item) async for item in self.collection.find()]
 

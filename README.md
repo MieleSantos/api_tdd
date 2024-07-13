@@ -177,6 +177,63 @@ Vamos utilizar Pyenv + Poetry, link de como preparar o ambiente abaixo:
 
 [poetry-documentation](https://github.com/nayannanara/poetry-documentation/blob/master/poetry-documentation.md)
 
+
+## Stack da API
+
+A API foi desenvolvida utilizando o `fastapi` (async), junto das seguintes libs:`pydantic`.
+
+Para salvar os dados está sendo utilizando o `mongodb`, por meio do `docker`.
+
+Ela permite fazer as seguintes operações:
+
+- GET de todos os produtos
+- GET/{id} busca um produto especifico
+- GET/filter/ busca produtos com filtro especifico
+- POST cria os produtos
+- PATCH/{id} atualiza um produto
+- DELETE/{id}
+
+## Execução da API
+
+Para executar o projeto, utilizei o [poetry](https://python-poetry.org/).Com o poetry instalado, execute o comando para instalar as dependências:
+
+```bash
+poetry install
+```
+
+Crie um arquivo `.env` na raiz do projeto, para especifica a url para conecta com o banco de dados, exemplo
+de  url:
+```
+DB_URL="DATABASE_URL="mongodb://localhost:27017/store?uuidRepresentation=standard""
+```
+
+A APi esta configurada para ser executada no container docker, para executa, use o comando:
+
+```
+docker compose up --build -d
+```
+
+
+
+Esse comando vai subir a api:
+
+
+```bash
+task run
+```
+
+> **Nota:** task são tarefas configuradas usando a biblioteca [taskipy](https://github.com/taskipy/taskipy) para automatiza tarefas, ela esta configurada no `pyproject.tmol` na seção `[tool.taskipy.tasks]`, onde tem os comando mapeados
+
+No taskipy, tem comando para fazer as formatações,lint, roda test e executa a api
+
+Para executa os testes, execute:
+```bash
+task test
+```
+Com os container executando e as migrações feitas, basta acessa: `http://127.0.0.1:8000/docs` para acessa a documentação do swagger e testa a api
+
+
+
 ## Links uteis de documentação
 [mermaid](https://mermaid.js.org/)
 
